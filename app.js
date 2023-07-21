@@ -10,7 +10,10 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const hpp = require('hpp')
+const hpp = require('hpp');
+const compression = require('compression'); // to compress res json
+const cookieParser = require('cookie-parser');
+// in order to get access to the cookie in any incoming request, we use a package installed 'npm i cookie-parser'
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./errorController')
@@ -22,8 +25,7 @@ const bookingRouter = require('./routes/bookingRoutes')
 const viewRouter = require('./routes/viewRoutes')
 
 
-const cookieParser = require('cookie-parser');
-// in order to get access to the cookie in any incoming request, we use a package installed 'npm i cookie-parser'
+
 
 const app = express();
 //express is a function which upon calling will add a bunch of methods to app variable
@@ -117,6 +119,10 @@ app.use(hpp({
 
 //     next(); //never forget to use next in all of your middlewares or else the code will break
 // });
+
+app.use(compression()); // will compress all the test sent to the client 
+
+
 
 // Test Middleware
 app.use((req, res, next) => {
@@ -399,3 +405,7 @@ module.exports = app;
 
 // npm i hpp
 // this prevent parameter pollution 
+
+
+// npm i compression
+// this will compress our json response from the server

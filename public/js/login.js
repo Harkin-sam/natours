@@ -6,7 +6,7 @@ export const login = async (email, password) => {
   try {
     const result = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:8000/api/v1/users/login',
+      url: '/api/v1/users/login', // we didnt specify the host : this only work cos the API and the website uses the same url, we are hosting them on the same place, it will automatically add the host on request process
       data: {
         email: email,
         password: password,
@@ -30,7 +30,7 @@ export const logout = async () => {
   try {
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:8000/api/v1/users/logout',
+      url: '/api/v1/users/logout',
     });
 
     if (res.data.status === 'success') {
@@ -38,6 +38,7 @@ export const logout = async () => {
       // setting it to 'true' set a reload from the server and not from the browser cache cos we want a fresh page coming from the server
     }
   } catch (err) {
+    // console.log(err.response)c
     showAlert('error', 'Error logging out. Try again!');
   }
 };

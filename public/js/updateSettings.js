@@ -9,7 +9,7 @@ export const updateUserSettings = async (data, type) => {
     // data here will be an object of the info
     try {
 
-        const url = type === 'password' ? 'http://127.0.0.1:8000/api/v1/users/updateMyPassword': 'http://127.0.0.1:8000/api/v1/users/updateMe'
+        const url = type === 'password' ? '/api/v1/users/updateMyPassword': '/api/v1/users/updateMe'
 
 
       const result = await axios({
