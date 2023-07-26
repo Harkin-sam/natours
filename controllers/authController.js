@@ -14,7 +14,7 @@ const signToken = (ID) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   const cookieOptions = {
@@ -23,11 +23,12 @@ const createSendToken = (user, statusCode, res) => {
     ), // converted config cookie variable to milliseconds
     // secure: true,
     httpOnly: true, // this is to ensure that the cookie cannot be modified in anyway by the browser not even delete it , only receive the cookie, store it and send it automatically along with every request
+    secure: req.secure || req.headers('x-forwarded-proto') === 'https',
   };
 
-  if (process.env.NODE_ENV === 'production') {
-    return (cookieOptions.secure = true);
-  }
+  //x-forwarded-proto is heroku specific, heroku acts as a proxy which kinda redirect and modifies requests
+
+  
 
   //SENDING JWT VIA COOKIE ; Creating a cookie
   res.cookie('jwt', token, cookieOptions);
@@ -72,7 +73,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
 
   //code 201 means created, now we placed the 'token' in the response
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
   //   res.status(201).json({
   //     status: 'success',
   //     token,
@@ -115,7 +116,7 @@ exports.login = catchAsync(async (req, res, next) => {
   //     token,
   //   });
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -285,7 +286,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //     token,
   //   });
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 // THIS FUNCTIONALITY IS ONLY OF LOGGED-IN USER for Updating his password without having to user forgot password
@@ -318,7 +319,7 @@ exports.updateMyPassword = catchAsync(async (req, res, next) => {
   // });
 
   // this makes the user stay logged in by creating a new jwt cookie
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 // THIS MIDDLEWARE IS ONLY FOR RENDERING the PUG PAGES BASED ON THE AUTHORIZATION:only for rendered pages, no error

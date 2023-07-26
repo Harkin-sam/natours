@@ -105,3 +105,12 @@ process.on('unhandledRejection', err => {
 })
 
 
+// SIGTERM Signal are signals emitted by Heroku Dino every 24hrs to keep our app in an healthy state and this signal shutdowns the our Node app
+
+process.on("SIGTERM", () => {
+  console.log('SIGTERM RECEIVED. shutting down gracefully')
+
+  server.close(()=> {
+    console.log('Process terminated')
+  })
+})

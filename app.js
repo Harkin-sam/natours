@@ -14,6 +14,7 @@ const hpp = require('hpp');
 const compression = require('compression'); // to compress res json
 const cookieParser = require('cookie-parser');
 // in order to get access to the cookie in any incoming request, we use a package installed 'npm i cookie-parser'
+const cors = require('cors'); 
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./errorController')
@@ -30,6 +31,8 @@ const viewRouter = require('./routes/viewRoutes')
 const app = express();
 //express is a function which upon calling will add a bunch of methods to app variable
 
+app.enable('trust proxy') // this is built-in express to enable proxy connection 
+
 //SETTING UP our render template Engine (PUG)
 // npm i pug
 // pug is a simple white space sensitive syntax for writing html
@@ -38,7 +41,21 @@ app.set('view engine', 'pug');
 // Defining where this views is located in our file system, pug template are actually called views in express
 app.set('views', path.join(__dirname, 'views')) // this create a path joining the directory name /view
 
-//1) GLOBAL MIDDLEWAREs
+//1) GLOBAL MIDDLEWARES
+
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin
+
+// eg lets say we have our our front and back end on diff domain
+// BE- api.natours.com, FE- natours.com
+// app.use(cors({
+//     origin: 'https://www.natours.com' // this will allow req form this site 
+// }))
+// simple request ie post and get and complex request ( delete, patch )pre-flight phase, browser options and permission
+
+app.options('*', cors()); // allows all routes
+// app.options('/api/v1/tours/:id', cors()) 
 
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -409,3 +426,7 @@ module.exports = app;
 
 // npm i compression
 // this will compress our json response from the server
+
+
+// npm i cors 
+// CORS- CROSS ORIGIN RESOURCE SHARING, this make our API to be accessible by external user and not only there server , it simply a middleware
