@@ -94,7 +94,7 @@ const port = process.env.PORT || 3000;
 // EACH TIME THERE IS AN UNHANDLED REJECTION IN OUR APPLICATION: meaning errors outside express like failed DB connection or expired/ invalid paSSWORD to handle that, PROCESS SHOULD BE SET TO EMIT AN EVENT AND OBJECT, SO WE CAN SUBSCRIBE TO THAT EVENT LIKE THIS 
 
 process.on('unhandledRejection', err => {
-  console.log(err.name, err.message)
+  console.log(err, err.message)
   console.log(`UNHANDLED REJECTION! 🚨 shutting down...`);
   // once there error in db connection all we an do is to shutdown our application, to shutdown application gracefully server.close() give us time to finish pending request or being handled then after it shutdown
   server.close(() =>{

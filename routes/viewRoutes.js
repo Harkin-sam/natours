@@ -1,7 +1,7 @@
 const express = require('express');
 const viewsController = require('./../controllers/viewsController');
 const authController = require('./../controllers/authController');
-const bookingController = require('./../controllers/bookingController')
+
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 
 // authController.isLoggedIn is made so every request will go through it, it runs for all the requests here it works like authController.protect to confirm if the user is loggedin we put the current user on res.local.user for rendering template
 
-router.get('/', bookingController.createBookingCheckout, authController.isLoggedIn, viewsController.getOverview);
+router.get('/', authController.isLoggedIn, viewsController.getOverview);
 
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 router.get('/login', authController.isLoggedIn, viewsController.getLoginForm);
