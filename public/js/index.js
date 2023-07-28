@@ -3,6 +3,8 @@ import { login, logout } from './login';
 import { updateUserSettings } from './updateSettings';
 import { displayMap } from './mapbox';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts';
+
 // This file is to get data form the user interface and delegate the action, it just normal javascript
 
 // TO prevent mapbox rendering errors running on all pages that is not required
@@ -85,6 +87,12 @@ if (bookBtn) {
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
+}
+
+
+const alertMessage = document.querySelector('body').dataset.alert
+if (alertMessage){
+  showAlert("success", alertMessage, 20)
 }
 
 

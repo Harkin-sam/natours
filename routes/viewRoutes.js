@@ -5,6 +5,8 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
+router.use(viewsController.alerts); // this middleware runs for every request
+
 // Render out base PUG template
 
 // authController.isLoggedIn is made so every request will go through it, it runs for all the requests here it works like authController.protect to confirm if the user is loggedin we put the current user on res.local.user for rendering template
@@ -22,3 +24,7 @@ router.post('/submit-user-data', authController.protect, viewsController.updateU
 
 
 module.exports = router;
+
+
+
+// ANYTHING IN RES.LOCALS WILL BE AVAILABLE ON OUR PUG TEMPLATE

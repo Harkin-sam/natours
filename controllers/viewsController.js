@@ -4,6 +4,25 @@ const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
 const Booking = require('./../models/bookingModel');
 
+
+
+exports.alerts = (req, res, next) => {
+  const {alert} = req.query // this is because req from the success url in stripe function in bookingController contains ?alert=booking which is useful in rendering base.pug file 
+
+  if (alert === "booking"){
+    res.locals.alert = "Your booking was successful! Please check your email for confirmation!. If your booking doesn't show up here immediately please come back here later."
+
+
+    // stripe webhook may take some time after the success url is called, abnormalities happens sometimes 
+  }
+
+  next();
+}
+
+
+
+
+
 //Anytime you have aysnc function wrapped in catchAsync you should always have 'next' in the arguments
 
 exports.getOverview = catchAsync(async (req, res, next) => {

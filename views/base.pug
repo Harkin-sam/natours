@@ -10,7 +10,8 @@ html
             title Natours | #{title}
 
 
-    body
+    body(data-alert=`${alert ? alert : ''}`) 
+        //- alert is from res.locals.alert
         // HEADER
         include _header
 

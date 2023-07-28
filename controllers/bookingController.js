@@ -16,7 +16,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // success_url: `${req.protocol}://${req.get('host')}/?tour=${
     //   req.params.tourID
     // }&user=${req.user.id}&price=${tour.price}`, //  immediately the card has been successfully charged and purchase successful, user will be redirected to this url, it will be a get request
-    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
+    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`, // page showed if the user choose to cancel the payment
     customer_email: req.user.email, // because the bookings route is protected the user details will be on the req
     client_reference_id: req.params.tourID,
