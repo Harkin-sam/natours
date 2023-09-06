@@ -1,3 +1,3 @@
-# Natours Application
+# Natours Application from Jonas course: 
 
-Built using modern technologies:  node.js, express, mongoDB, mongoose and friends 😍
+ API Built using modern technologies:  node.js, express, mongoDB, mongoose and friends 😍
